@@ -1,41 +1,45 @@
 package br.com.lavaJato.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
+import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Entity
-@Table(name="TB_CLIENTES")
+@Table(name = "TB_CLIENTES")
 public class Cliente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NumberFormat
     private Long id_cliente;
 
-    @NotBlank
+    @NotEmpty(message = "{name.not.blank}")
     private String nome;
 
-    @NotBlank
+    @Email(message = "{email.not.valid}")
     private String email;
 
-    @NotNull
-    private  Long telefone;
+    @Min(value = 0)
+    private Long telefone;
 
-    @NotNull
+    @Min(value = 0)
     private int ddd;
 
-    @NotNull
-    private Long cpfCnpj;
+    @NotBlank(message = "{mandatory.not.blank}")
+    private String cpfCnpj;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private String dataNascimento;
 
     private String sexo;
 
-    @NotBlank
+    @NotBlank(message = "{mandatory.not.blank}")
     private String endereco;
 
     private String complemento;
@@ -43,6 +47,15 @@ public class Cliente {
     private int numero;
 
     private String bairro;
+
+    private String cep;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="TB_CLIENTES_CARROS", joinColumns=
+            {@JoinColumn(name="id_cliente")}, inverseJoinColumns=
+            {@JoinColumn(name="id_carro")})
+    private List<Carro> carros;
+
 
     public Long getId_cliente() {
         return id_cliente;
@@ -76,11 +89,11 @@ public class Cliente {
         this.telefone = telefone;
     }
 
-    public Long getCpfCnpj() {
+    public String getCpfCnpj() {
         return cpfCnpj;
     }
 
-    public void setCpfCnpj(Long cpfCnpj) {
+    public void setCpfCnpj(String cpfCnpj) {
         this.cpfCnpj = cpfCnpj;
     }
 
@@ -139,4 +152,21 @@ public class Cliente {
     public void setDdd(int ddd) {
         this.ddd = ddd;
     }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public List<Carro> getCarros() {
+        return carros;
+    }
+
+    public void setCarros(List<Carro> carros) {
+        this.carros = carros;
+    }
+
 }
