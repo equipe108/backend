@@ -50,7 +50,7 @@ public class Cliente {
 
     private String cep;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE})
     @JoinTable(name="TB_CLIENTES_CARROS", joinColumns=
             {@JoinColumn(name="id_cliente")}, inverseJoinColumns=
             {@JoinColumn(name="id_carro")})

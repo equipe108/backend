@@ -39,6 +39,9 @@ public class ClienteRest {
     @PostMapping
     @ApiOperation(value = "salva um cliente")
     public void incluirClientes(@Valid @RequestBody Cliente cliente) {
+    	/*for(int i = 0; i< cliente.getCarros().size(); i++){
+    		carroService.save(cliente.getCarros().get(i).get);
+    	}*/
         clienteService.save(cliente);
     }
     
