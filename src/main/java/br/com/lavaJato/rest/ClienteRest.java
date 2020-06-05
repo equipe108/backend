@@ -39,9 +39,9 @@ public class ClienteRest {
     @PostMapping
     @ApiOperation(value = "salva um cliente")
     public void incluirClientes(@Valid @RequestBody Cliente cliente) {
-    	/*for(int i = 0; i< cliente.getCarros().size(); i++){
-    		carroService.save(cliente.getCarros().get(i).get);
-    	}*/
+    	for(int i = 0; i< cliente.getCarros().size(); i++){
+    		carroService.save(cliente.getCarros().get(i));
+    	}
         clienteService.save(cliente);
     }
     
@@ -54,6 +54,9 @@ public class ClienteRest {
     @PatchMapping
     @ApiOperation(value = "Altera os dados de um cliente especifico")
     public Cliente alterarCliente(@Valid @RequestBody Cliente cliente) {
+    	for(int i = 0; i< cliente.getCarros().size(); i++){
+    		carroService.save(cliente.getCarros().get(i));
+    	}
         return clienteService.save(cliente);
     }
     
